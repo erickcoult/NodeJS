@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Curso Node.js</title>
+</head>
+<body>
+    <h1>Protocolo HTTP</h1>
+   <br>
+
+    <p>Existem <strong>módulos</strong> para o Node e um deles é chamado de <strong>HTTP</strong>. Ele é responsável por aplicações web e, Juntamente com isso, responsável por abrir um servidor http</p>
+    <p>Logo, teremos a seguinte ordem para abrir um servidor: constante definindo módulo; Módulo utilizado.createServer().listen()(porta que utilizaremos)</p>
+    <code>
+        <span>const http = require('http');</span>
+        <span>http.createServer().listen(8081); *definir qualquer porta*</span>
+        <span>console.log ("Vc está logado");</span>
+    </code>
+    <h2>Callback</h2>
+    <p>Uma função de callback é uma função que você passa como argumento para outra função, e que será chamada (ou "chamada de volta") em algum momento depois que a função externa terminar sua execução ou quando um determinado evento ocorrer.</p>
+    <p>Ela recebe dois parametros, sendo eles <strong>req</strong> e <strong>res</strong>. Você pode mudar o nome dos parâmetros do callback para qualquer nome que desejar. O importante é a posição dos parâmetros e o que eles representam. O primeiro parâmetro representa a solicitação (request) e o segundo representa a resposta (response).</p>
+     <p>req (Request): Representa a solicitação do cliente, contendo informações como URL, método HTTP, cabeçalhos, parâmetros e dados do cliente.</p>
+    <p>res (Response): Representa a resposta do servidor, permitindo enviar dados de volta ao cliente, definir cabeçalhos e status da resposta.</p>
+    <code>
+        <span>const http = require('http');</span>
+        <span>http.createServer(function(req,res){</span>
+            <span>res.end("Hello word");</span>
+        <span>}).listen(8081);</span>
+        <span>console.log ("Vc está logado");</span>
+    </code>
+    <p>Ou seja, o cliente irá fazer a requisição(req) ao servidor e o servidores responderá(res) enviando um Hello word.</p>
+
+    <strong>**Vale lembrar que o escopo para abrir o servidor DEVE SEMPRE ficar por último no código. Ou seja, ele deve ficar depois de todos os escopos do projeto.</strong>
+    <br>
+    
+    <h1>Downloado bibliotecas Node.JS</h1>
+    <p>Nas proximas etapas, usaremos a biblioteca <strong>EXPRESS</strong>. Para isso devemos fazer o download da biblioteca pelo <strong>Prompt de comando</strong>, bastando apenas inserir <strong>npm install nomePacote --save</strong>.</p>
+    <p>Para escolhermos o pacote que vamos instalar, devemos ir no site da NPM (<a href="https://www.npmjs.com/">npm.com</a>) e procurar o pacote. Após isso, veremos qual o comando para instalarmos e de como "<strong>chamar</strong>" a biblioteca. </p>
+    <br>
+
+    <h1>Rotas</h1>
+    <p>Antes de iniciarmos, devemos antes entender as 3 variáveis de JS </p>
+    <ul>
+        <li>var: Declara uma variável com escopo de função ou global, que pode ser reatribuída e redeclarada.</li>
+        <li>let: Declara uma variável com escopo de bloco, que pode ser reatribuída, mas não pode ser redeclarada no mesmo escopo.</li>
+        <li>const: Declara uma constante com escopo de bloco, que não pode ser reatribuída nem redeclarada.</li>
+    </ul>
+    <p>As rotas nada mais são que caminhos para chegar em determinadas páginas do site. Por exemplo, no site www.ex.com tem a página "sobre". Então, para acessarmos essa página "sobre", podemos usar as <strong>rotas</strong> que ficaria www.ex.com/sobre.</p>
+    <p>Ou seja, rotas nada mais são do que um método de <strong>navegar pelo site por URL's</strong>. Aliás, este método se chama <strong>GET</strong>, algo bastante utilizado nos sites.</p>
+    <p>Os dois métodos mais utilizados em uma relação de cliente e servidor são:</p>
+    <ul>
+        <li>GET: Usado para buscar dados. Os dados são passados na URL.</li>
+        <li>POST: Usado para enviar dados ao servidor. Os dados são passados no corpo da requisição(formulários).</li>
+    </ul>
+    <p>Agora, para criarmos rotas é algo bem simples, basta utilizarmos a constante que está rodando o express e acrescentar get e a função</p>
+    <code>
+        <span>const express = request("express");</span>//chama o express para nosso projeto
+        <span>const app = express();</span>//este app fará com que o express rode em nosso projeto
+        <span>app.get("/sobre", function(req,res){</span>
+            <span>res.send("minha pagina sobre");</span>
+            <span>});</span>
+    </code>
+    <br>
+
+    <h1>Parâmetros</h1>
+    <p>Ainda seguindo a lógica passada, parâmetros vão complementar o GET. Basicamente você vai colocar um parâmetro obrigatório que o usuário "deverá" inserir na URL para acessar a página. Isso é feito apenas com um <strong>:</strong></p>
+    <code>
+        <span>app.get('/sobre/<strong>:</strong>nome/<strong>:</strong>profissao/<strong>:</strong>cor', function(req, res){</span>
+        <span>})</span>
+    </code>
+    <p>Logo, para acessarmos a página sobre, <strong>devemos</strong> passar os parâmetros "nome", "profissao" e "cor". Lógicamente nao importa o que eu inserir, apenas basta existir 3 parâmetros, ou seja, se eu quiser colocar <strong>"/sobre/:asdsad/:asdsad/:asd</strong>, a página sobre abrirá.</p>
+
+    <h2>Requisição de parâmetros</h2>
+    <p>Também podemos requirir esse parâmetros para mostrar ao usuário</p>
+    <p>Para isso, utilizamos o seguinte comando <strong>req.params.nomeParâmetro</strong>(Ou só req.param caso desejarmos mostrar as informações passadas pela URL). Com isso, podemos mostrar as informações para o usuário.</p>
+    <code>
+        <span>app.get("sobre/:nome/:profissao/:cor", function(req, res);{</span>
+            <span>res.send("Olá "+ req.params.nome+ "sua profissão é" + req.params.profissao "e sua cor favorita é" req.params.cor);</span>
+        <span>})</span>
+    </code>
+    <p>Vale lembrar que <strong>NÃO</strong> pode enviar mais de um <strong>.send</strong> por escopo</p>
+</body>
+</html>
